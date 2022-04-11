@@ -1,0 +1,10 @@
+.table-container {
+    background-color: #b5fac7;
+    border-radius: 3px;
+    box-shadow: 0px 2px 10px rgb(75 58 58 / 20%);
+    margin: 20px 150px 20px 150px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+
+}

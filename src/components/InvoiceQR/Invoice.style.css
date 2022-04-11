@@ -1,0 +1,19 @@
+.qr-container {
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0px 2px 10px rgb(75 58 58 / 20%);
+    overflow: hidden;
+    width: 360px;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+
+}
+
+.invoice-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 5px 10px 0;
+}
