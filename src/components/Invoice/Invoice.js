@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router'
 import { get } from '../../utils/httpClient'
 import Moment from 'moment';
 import "./Invoice.style.css"
+import { SesionContext } from '../../context/SesionContext';
 
 
 
@@ -10,21 +11,22 @@ const Invoice = () => {
 
     const [loading, setLoading] = useState(true)
     const [invoice, setInvoice] = useState({})
+    const { getToken } = useContext(SesionContext)
 
     const { billId } = useParams()
 
     useEffect(() => {
         const getInvoice = async () =>{
-            console.log(billId)
-          const config = {
-            headers: {
-              Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRldkB1ZGVhLmVkdS5jbyIsImlkIjoiYTRjZWJmMWEtNTY2YS00NTc4LWE3NjYtNjViN2EzNTQ5ODQwMSIsInJvbGUiOiIxMjExMTg4Zi1jNTdmLTRlMTgtODFkMC1iYzM5M2FlMGRiMzkiLCJjb21wYW55SWQiOiI2NTdjYjczMy1kYjg0LTRlNDYtOGEzNi1hNGFmYTRjOGExMTUiLCJpYXQiOjE2NDk0NzgxNTAsImV4cCI6MTY0OTQ4ODk1MH0.e5xO3ZobnkSSM1Lvg_2iGpsZtaKnuYlWIbMCCVXFKoI"
-          }
-        }
-          const response = await get(`http://34.136.10.174:5005/api/bill/detail?billId=${billId}`, config)
-          console.log(response)
-          setInvoice(response);
-          setLoading(false);
+
+            const token = await getToken();
+            const config = {
+                headers: {
+                Authorization: token
+            }
+            }
+            const response = await get(`http://34.136.10.174:5005/api/bill/detail?billId=${billId}`, config)
+            setInvoice(response);
+            setLoading(false);
         }
         getInvoice();
         setLoading(false)
@@ -65,10 +67,7 @@ const Invoice = () => {
                 <div className="key">Estado:</div>
                 <div className="value">{invoice.status}</div>
             </div>
-            <div className="detail-prop">
-                <div className="key">Token:</div>
-                <div className="value">{invoice.token}</div>
-            </div>
+
             <div className="detail-prop">
                 <div className="key">TRM:</div>
                 <div className="value">{invoice.trm}</div>

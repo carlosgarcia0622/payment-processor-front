@@ -13,6 +13,20 @@ const InvoiceForm = () => {
       });
     const [qrString, setQrString] = useState('');
     
+    const getQrCoinSymbol = (coinSymbol)=>{
+        switch (coinSymbol) {
+            case 'BTC':
+                return 'bitcoin';
+            case 'ETH': 
+                return 'ethereum';
+            case 'UDEA': 
+                return 'udea';
+            case 'USDT': 
+                return 'tether';
+            default: 
+                console.log('invalid coin symbol')
+        }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();  
@@ -20,8 +34,9 @@ const InvoiceForm = () => {
             invoice, {
             headers: {"x-api-key": "123"}
           })
-        const coin = response.coinSymbol === 'BTC'?  'bitcoin':'ethereum' 
+        const coin = getQrCoinSymbol(response.coinSymbol) 
         setQrString(`${coin}:${response.address}?amount=${response.value}`);
+        setInvoice({...invoice, value: response.value, address: response.address })
         setIsInvoiceCreated(true);
 
     }
@@ -36,7 +51,9 @@ const InvoiceForm = () => {
 
     const options = [
         { value: 'BTC', label: 'Bitcoin' },
-        { value: 'ETH', label: 'Ethereum' }
+        { value: 'ETH', label: 'Ethereum' },
+        { value: 'UDEA', label: 'UDEA' },
+        { value: 'USDT', label: 'USDT' },
       ]
 
       const customStyles = {
@@ -51,7 +68,7 @@ const InvoiceForm = () => {
 
   return (
     <div className="container">
-        {isInvoiceCreated? <InvoiceQR query={qrString}></InvoiceQR>
+        {isInvoiceCreated? <InvoiceQR query={qrString} invoice={invoice}></InvoiceQR>
         : <div className="card">
             <form className='form'>
                 <h1>Crear Factura</h1>
