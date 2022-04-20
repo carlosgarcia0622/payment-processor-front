@@ -19,12 +19,14 @@ const Invoice = () => {
         const getInvoice = async () =>{
 
             const token = await getToken();
+            console.log(token)
             const config = {
                 headers: {
                 Authorization: token
             }
             }
             const response = await get(`http://34.136.10.174:5005/api/bill/detail?billId=${billId}`, config)
+            console.log(response)
             setInvoice(response);
             setLoading(false);
         }
@@ -67,7 +69,10 @@ const Invoice = () => {
                 <div className="key">Estado:</div>
                 <div className="value">{invoice.status}</div>
             </div>
-
+            <div className="detail-prop">
+                <div className="key">Id Externo:</div>
+                <div className="value">{invoice.externalTxId}</div>
+            </div>
             <div className="detail-prop">
                 <div className="key">TRM:</div>
                 <div className="value">{invoice.trm}</div>
