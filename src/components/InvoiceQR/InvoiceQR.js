@@ -3,6 +3,7 @@ import QRCode from 'react-qr-code'
 import './Invoice.style.css'
 
 const InvoiceQR = ({query, invoice}) => {
+  console.log(invoice)
   return (
     <div className="qr-container">
       <div className="invoice-price">
@@ -15,7 +16,11 @@ const InvoiceQR = ({query, invoice}) => {
         
         <div >
             <QRCode align="center" title="QR TITLE" fgColor="#1f5156" value={query}></QRCode>
-        </div> 
+        </div>  
+        <div style={{marginTop: '15px',inlineSize: '260px', overflowWrap: 'break-word'}}>
+          {invoice.address}
+          </div>
+
     </div>
   )
 }
